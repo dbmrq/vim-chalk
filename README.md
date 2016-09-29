@@ -51,11 +51,11 @@ This works just like Vim's `zf`, creating a new fold at the current selection (i
 
 This works just like Vim's `zF`, creating a fold for the specified number of lines, but with the same perks as above.
 
-#### `<Plug>SigleChalk`
+#### `<Plug>SingleChalk`
 
 The previous mappings add both the opening and closing fold markers. This one, on the other hand, adds a single opening marker at current line. If a count is specified before the mapping, that count is used as the level number. If no count is specified, this mapping will use the current level.
 
-#### `<Plug>SigleChalkUp`
+#### `<Plug>SingleChalkUp`
 
 This mapping works like the previous one, but if no count is specified, it will use a level above the current fold.
 
