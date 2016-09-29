@@ -57,7 +57,7 @@ The previous mappings add both the opening and closing fold markers. This one, o
 
 #### `<Plug>SingleChalkUp`
 
-This mapping works like the previous one, but if no count is specified, it will use a level above the current fold.
+This mapping works like the previous one, but if no count is specified, it will use a level deeper than the current fold's.
 
 #### `<Plug>ChalkUp` and `<Plug>ChalkDown`
 
