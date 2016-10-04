@@ -2,7 +2,7 @@
 
 Vim can get confused when handling multiple nested fold markers.
 
-The answer is to include a level (like this: `"{{{1`), but I'm to lazy for that. Enter Chalk. It automatically adds the level to folds you create with `zf` and increments all nested folds for you. There are also specific mappings and commands to increment and decrement markers while keeping them balanced and more. :tada:
+The answer is to include a level (like this: `"{{{1`), but I'm too lazy for that. Enter Chalk. It automatically adds the level to folds you create with `zf` and increments all nested folds for you. There are also specific mappings and commands to increment and decrement markers while keeping them balanced and more. :tada:
 
 ![chalk](http://i.imgur.com/8X3Oljm.gif)
 
