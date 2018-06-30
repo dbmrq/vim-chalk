@@ -11,6 +11,27 @@ let g:loaded_chalk = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
+if !exists("g:chalk_align")
+    let g:chalk_align = 1
+endif
+
+if !exists("g:chalk_char")
+    let g:chalk_char = " "
+endif
+
+function! ShortFoldText()
+    let text = foldtext()
+    if strchars(text) > &l:textwidth
+        let regex = '\(.\{,' . (&l:textwidth - 3) . '}\).*$'
+        let text = substitute(text, regex, '\1', '') . "..."
+    end
+    return text
+endfunction
+
+if &l:foldtext == "foldtext()" && g:chalk_align == 1
+    set foldtext=ShortFoldText()
+end
+
 vnoremap <silent> <Plug>Chalk :call chalk#makeFold(visualmode(), 1)<CR>
 nnoremap <silent> <Plug>Chalk :set opfunc=chalk#makeFold<CR>g@
 

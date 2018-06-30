@@ -11,14 +11,6 @@ let g:autoloaded_chalk = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
-if !exists("g:chalk_align")
-    let g:chalk_align = 1
-endif
-
-if !exists("g:chalk_char")
-    let g:chalk_char = " "
-endif
-
 function! s:currentFold()
     let l:winview = winsaveview()
     let markers = split(&l:foldmarker, ',')
@@ -41,7 +33,7 @@ function! s:currentFold()
 endfunction
 
 function! s:addMarker(line, position, level)
-    let lineText = getline(a:line)
+    let lineText = substitute(getline(a:line), '^\s*\(.\{-}\)\s*$', '\1', '')
     let comments = split(&l:commentstring, '%s')
     let openingComment = len(comments) > 0 &&
         \ lineText !~ escape(comments[0], '/\^$.*~[]&') ? comments[0] : ""
@@ -52,7 +44,7 @@ function! s:addMarker(line, position, level)
     endif
     let markers = split(substitute(&l:foldmarker, ' ', '', 'g'), ',')
     let marker = a:position == 'close' ? markers[1] : markers[0]
-    let openingString = lineText . openingComment
+    let openingString = lineText . openingComment . " "
     let closingString = marker . a:level . closingComment
     let spacesCount = &l:textwidth - strchars(openingString . closingString)
     let spacesCount = g:chalk_align == 1 && spacesCount > 0 ? spacesCount : 1
