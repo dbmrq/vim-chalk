@@ -134,5 +134,11 @@ By default, Chalk will align your fold markers to the right according to your
 to 0.
 
 
+g:chalk_char                                                    *g:chalk_char*
+---------------
+
+The character used to align markers to the right. The default is a space.
+
+
 vim:tw=78:ts=8:ft=help:norl:
 

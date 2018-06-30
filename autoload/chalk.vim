@@ -15,6 +15,10 @@ if !exists("g:chalk_align")
     let g:chalk_align = 1
 endif
 
+if !exists("g:chalk_char")
+    let g:chalk_char = " "
+endif
+
 function! s:currentFold()
     let l:winview = winsaveview()
     let markers = split(&l:foldmarker, ',')
@@ -50,10 +54,9 @@ function! s:addMarker(line, position, level)
     let marker = a:position == 'close' ? markers[1] : markers[0]
     let openingString = lineText . openingComment
     let closingString = marker . a:level . closingComment
-
-    let spacesCount = &l:textwidth - len(openingString . closingString)
+    let spacesCount = &l:textwidth - strchars(openingString . closingString)
     let spacesCount = g:chalk_align == 1 && spacesCount > 0 ? spacesCount : 1
-    let spaces = repeat(" ", spacesCount)
+    let spaces = repeat(g:chalk_char, spacesCount - 1) . " "
     call setline(a:line, openingString . spaces . closingString)
 endfunction
 

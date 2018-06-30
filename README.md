@@ -71,6 +71,10 @@ When used in Visual mode, they'll increment or decrement every marker in the vis
 
 By default, Chalk will align your fold markers to the right according to your `textwidth` setting. If you want to disable that behavior, set `g:chalk_align` to `0`.
 
+#### g:chalk_char
+
+The character used to align markers to the right. The default is a space (`" "`).
+
 
 ## See also
 
