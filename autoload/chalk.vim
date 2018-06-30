@@ -1,6 +1,6 @@
 " chalk.vim - Better fold markers
 " Author:   Daniel B. Marques
-" Version:  0.1
+" Version:  1.0
 " License:  Same as Vim
 
 if exists("g:autoloaded_chalk") || &cp
@@ -10,6 +10,10 @@ let g:autoloaded_chalk = 1
 
 let s:save_cpo = &cpo
 set cpo&vim
+
+if !exists("g:chalk_align")
+    let g:chalk_align = 1
+endif
 
 function! s:currentFold()
     let l:winview = winsaveview()
@@ -33,32 +37,24 @@ function! s:currentFold()
 endfunction
 
 function! s:addMarker(line, position, level)
-    let comments = split(&l:commentstring, '%s')
-    let markers = split(substitute(&l:foldmarker, ' ', '', 'g'), ',')
-    let string = ""
     let lineText = getline(a:line)
+    let comments = split(&l:commentstring, '%s')
+    let openingComment = len(comments) > 0 &&
+        \ lineText !~ escape(comments[0], '/\^$.*~[]&') ? comments[0] : ""
+    let closingComment = len(comments) > 1 ? " " . comments[1] : ""
     if len(comments) > 1
         let lineText = substitute(lineText,
-                    \ escape(comments[1], '/\^$.*~[]&') . "$", "", "")
+            \ escape(comments[1], '/\^$.*~[]&') . "$", "", "")
     endif
-    if len(comments) > 0 && lineText !~ escape(comments[0], '/\^$.*~[]&')
-        let string .= comments[0]
-    endif
-    let string .= ' '
-    let string .= a:position == 'close' ? markers[1] : markers[0]
-    let string .= a:level
-    if len(comments) > 1
-        let string .= ' ' . comments[1]
-    endif
-    let lineText = substitute(lineText, ' $', '', 'g')
-    call setline(a:line, lineText . string)
-endfunction
+    let markers = split(substitute(&l:foldmarker, ' ', '', 'g'), ',')
+    let marker = a:position == 'close' ? markers[1] : markers[0]
+    let openingString = lineText . openingComment
+    let closingString = marker . a:level . closingComment
 
-function! s:foldLevel()
-    let markers = split(&l:foldmarker, ',')
-    let line = getline(s:currentFold()[0])
-    let level = matchstr(line, markers[0] . '\zs\d\+\ze')
-    return level == "" ? 0 : level
+    let spacesCount = &l:textwidth - len(openingString . closingString)
+    let spacesCount = g:chalk_align == 1 && spacesCount > 0 ? spacesCount : 1
+    let spaces = repeat(" ", spacesCount)
+    call setline(a:line, openingString . spaces . closingString)
 endfunction
 
 function! chalk#incrementMarkers(first_line, last_line, operator)
@@ -68,13 +64,13 @@ function! chalk#incrementMarkers(first_line, last_line, operator)
     let markers = '\(' . markers[0] . '\|' . markers[1] . '\)'
     silent! execute range . 's/' . markers .
                 \ '\zs\d\+\ze/\=submatch(0)'. a:operator . '1/g'
-    let level = s:foldLevel() + 2
+    let level = foldlevel('.') + 2
     silent! execute range . 's/' . markers  . '$/\1' . level . '/g'
     call winrestview(l:winview)
 endfunction
 
 function! chalk#incrementPair(operator)
-    if a:operator == '-' && s:foldLevel() <= 1 | return | endif
+    if a:operator == '-' && foldlevel('.') <= 1 | return | endif
     let lines = s:currentFold()
     let markers = split(&l:foldmarker, ',')
     let both = matchstr(getline(lines[0]), markers[0] . '\zs\d\+\ze') ==
@@ -89,7 +85,7 @@ function! chalk#makeMarker(increment, ...)
     if a:0 && a:1
         let level = a:1
     else
-        let level = a:increment ? s:foldLevel() + 1 : s:foldLevel()
+        let level = a:increment ? foldlevel('.') + 1 : foldlevel('.')
     endif
     let level = level == 0 ? 1 : level
     call s:addMarker(line('.'), 'open', level)
@@ -104,7 +100,7 @@ function! chalk#makeFold(type, ...) range
         let last_line = line(''']')
     endif
     if first_line == last_line | return | endif
-    let level = s:foldLevel()
+    let level = foldlevel('.')
     call chalk#incrementMarkers(first_line, last_line, '+')
     call s:addMarker(first_line, 'open', level + 1)
     call s:addMarker(last_line, 'close', level + 1)
@@ -112,5 +108,4 @@ endfunction
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
-
 

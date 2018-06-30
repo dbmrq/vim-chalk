@@ -121,5 +121,18 @@ mode mappings won't keep the opening and closing markers balanced unless
 they're both inside the selection.
 
 
- vim:tw=78:ts=8:ft=help:norl:
+
+==============================================================================
+OPTIONS                                                        *chalk-options*
+
+
+g:chalk_align                                                  *g:chalk_align*
+---------------
+
+By default, Chalk will align your fold markers to the right according to your
+'textwidth' setting. If you want to disable that behavior, set 'g:chalk_align'
+to 0.
+
+
+vim:tw=78:ts=8:ft=help:norl:
 

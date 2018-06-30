@@ -65,6 +65,12 @@ When used in Normal mode, these mappings will increment or decrement the pair of
 
 When used in Visual mode, they'll increment or decrement every marker in the visual selection. Not that unlike their Normal mode counterparts the Visual mode mappings won't keep the opening and closing markers balanced unless they're both inside the selection.
 
+## Options
+
+#### g:chalk_align
+
+By default, Chalk will align your fold markers to the right according to your `textwidth` setting. If you want to disable that behavior, set `g:chalk_align` to `0`.
+
 
 ## See also
 
