@@ -22,7 +22,7 @@ function! chalk#align()
     let regex = '\(.*\)'
     let regex .= escape(openingComment, '/\^$.*~[]&')
     let regex .= '\(\s\)\?'
-    let regex .= '\(\w.\{-}\s\)\?'
+    let regex .= '\([^' . g:chalk_char . ']\{-}\s\)\?'
     let regex .= '\(\A\{2,}\)\?'
     let regex .= '\(' . escape(openingMarker, '/\^$.*~[]&') . '\|'
                 \ . escape(closingMarker, '/\^$.*~[]&') . '\)'
