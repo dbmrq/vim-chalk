@@ -20,27 +20,26 @@ function! chalk#align()
     let openingMarker = markers[0]
     let closingMarker = markers[1]
     let regex = '\(.*\)'
-    let regex .= escape(openingComment, '/\^$.*~[]&')
+    let regex .= escape(openingComment, '/\^$.*~[]&"')
     let regex .= '\(\s\)\?'
     let regex .= '\([^' . g:chalk_char . ']\{-}\s\)\?'
     let regex .= '\(\A\{2,}\)\?'
-    let regex .= '\(' . escape(openingMarker, '/\^$.*~[]&') . '\|'
-                \ . escape(closingMarker, '/\^$.*~[]&') . '\)'
+    let regex .= '\(' . escape(openingMarker, '/\^$.*~[]&"') . '\|'
+                \ . escape(closingMarker, '/\^$.*~[]&"') . '\)'
     let regex .= '\(\d\)\?'
     let regex .= '\(\s\)\?'
-    let regex .= '\(' . escape(closingComment, '/\^$.*~[]&') . '\)\?'
+    let regex .= '\(' . escape(closingComment, '/\^$.*~[]&"') . '\)\?'
     let fillerCount = '&l:textwidth - strchars('
     let fillerCount .= 'submatch(1) . '
-    let fillerCount .= '"' . escape(openingComment, '/') . '" . " " . '
+    let fillerCount .= '"' . escape(openingComment, '/"') . '" . " " . '
     let fillerCount .= 'submatch(3) . " " . submatch(5) . '
     let fillerCount .= 'submatch(6) . submatch(7) . submatch(8))'
     let replacement = '\=submatch(1) . '
-    let replacement .= '"' . escape(openingComment, '/\^$.*~[]&') . '" . " " . '
+    let replacement .= '"' . escape(openingComment, '/\^$.*~[]&"') . '" . " " . '
     let replacement .= 'submatch(3) . '
     let replacement .= 'repeat("' . g:chalk_char . '", ' . fillerCount . ') . '
     let replacement .= '" " . submatch(5) . '
     let replacement .= 'submatch(6) . submatch(7) . submatch(8)'
-    " let replacement = '\=submatch(3)'
     execute "%s/" . regex . "/" . replacement . "/g"
 endfunction
 " ....................................................................... }}}1
@@ -73,11 +72,11 @@ function! s:addMarker(line, position, level)
     let lineText = substitute(getline(a:line), '^\s*\(.\{-}\)\s*$', '\1', '')
     let comments = split(&l:commentstring, '%s')
     let openingComment = len(comments) > 0 &&
-        \ lineText !~ escape(comments[0], '/\^$.*~[]&') ? comments[0] : ""
+        \ lineText !~ escape(comments[0], '/\^$.*~[]&"') ? comments[0] : ""
     let closingComment = len(comments) > 1 ? " " . comments[1] : ""
     if len(comments) > 1
         let lineText = substitute(lineText,
-            \ escape(comments[1], '/\^$.*~[]&') . "$", "", "")
+            \ escape(comments[1], '/\^$.*~[]&"') . "$", "", "")
         let lineText = substitute(lineText, '^\s*\(.\{-}\)\s*$', '\1', '')
     endif
     let markers = split(substitute(&l:foldmarker, ' ', '', 'g'), ',')
@@ -154,11 +153,11 @@ endfunction
 function! s:editFoldText(line)
     if g:chalk_edit == 1
         if g:chalk_align == 1
-        let regex = escape(repeat(g:chalk_char, 4), '/\^$.*~[]&')
+        let regex = escape(repeat(g:chalk_char, 4), '/\^$.*~[]&"')
         else
             let comments = split(&l:commentstring, '%s')
             let comment = len(comments) > 0 ? comments[0] : ""
-            let regex = escape(comment . " ", '/\^$.*~[]&') . "/e"
+            let regex = escape(comment . " ", '/\^$.*~[]&"') . "/e"
         endif
         if match(getline('.'), regex) < 0
             return
