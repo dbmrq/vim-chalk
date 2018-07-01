@@ -71,6 +71,12 @@ Increment or decrement the fold marker levels for the specified range (or the
 whole file, if no range is given).
 
 
+:ChalkAlign                                                      *:ChalkAlign*
+--------
+
+Align all markers in the current document.
+
+
 
 ==============================================================================
 MAPPINGS                                                      *chalk-mappings*
@@ -138,6 +144,13 @@ g:chalk_char                                                    *g:chalk_char*
 ---------------
 
 The character used to align markers to the right. The default is a space.
+
+
+g:chalk_edit                                                    *g:chalk_edit*
+---------------
+
+By default, Chalk will leave you in insert/replace mode after creating a new
+fold. You can disable this behavior by setting 'g:chalk_edit' to 0.
 
 
 vim:tw=78:ts=8:ft=help:norl:

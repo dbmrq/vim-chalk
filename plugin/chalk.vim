@@ -19,6 +19,10 @@ if !exists("g:chalk_char")
     let g:chalk_char = " "
 endif
 
+if !exists("g:chalk_edit")
+    let g:chalk_edit = 1
+endif
+
 function! ShortFoldText()
     let text = foldtext()
     if strchars(text) > &l:textwidth
@@ -52,6 +56,8 @@ command! -range=% ChalkUp
             \ call chalk#incrementMarkers(<line1>, <line2>, '+')
 command! -range=% ChalkDown
             \ call chalk#incrementMarkers(<line1>, <line2>, '-')
+
+command! ChalkAlign call chalk#align()
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

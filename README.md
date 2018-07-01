@@ -7,6 +7,11 @@ The answer is to include a level (like this: `"{{{1`), but I'm too lazy for that
 ![chalk](http://i.imgur.com/8X3Oljm.gif)
 
 
+**Update:** Inspired by [kshenoy/vim-origami](https://github.com/kshenoy/vim-origami), I updated Chalk with the option to keep the markers aligned. My version aligns both the opening and closing markers and it also allows you to choose a "filler" character for the padding. On the other hand, it doesn't support "staggered" alignment and the markers are always aligned to the `textwidth` setting.
+
+![chalk2](https://user-images.githubusercontent.com/15813674/42131541-73d044d6-7cda-11e8-872c-ccdf19c0dc7e.png)
+
+
 ### Quick start
 
 1. Install Chalk using your favorite plugin manager or copy each file to its corresponding directory under `~/.vim/`.
@@ -15,6 +20,8 @@ The answer is to include a level (like this: `"{{{1`), but I'm too lazy for that
 
     ```vim
     set foldmethod=marker
+
+    let g:chalk_char = "."       " The character used to align markers
 
     vmap zf <Plug>Chalk          " Create fold at visual selection
     nmap zf <Plug>Chalk          " Create fold at operator movement
@@ -39,6 +46,10 @@ The answer is to include a level (like this: `"{{{1`), but I'm too lazy for that
 #### `:ChalkUp` and `:ChalkDown`
 
 Increment or decrement the fold marker levels for the specified range (or the whole file, if no range is given).
+
+#### `:ChalkAlign`
+
+Align all markers in the current document.
 
 
 ## Mappings
@@ -74,6 +85,10 @@ By default, Chalk will align your fold markers to the right according to your `t
 #### g:chalk_char
 
 The character used to align markers to the right. The default is a space (`" "`).
+
+#### g:chalk_edit
+
+By default, Chalk will leave you in insert/replace mode after creating a new fold. You can disable this behavior by setting `g:chalk_edit` to `0`.
 
 
 ## See also
