@@ -21,16 +21,17 @@ The answer is to include a level (like this: `"{{{1`), but I'm too lazy for that
     ```vim
     set foldmethod=marker
 
-    let g:chalk_char = "."       " The character used to align markers
+    let g:chalk_char = "."       " The character used as padding
+                                 " when aligning markers
 
     vmap zf <Plug>Chalk          " Create fold at visual selection
     nmap zf <Plug>Chalk          " Create fold at operator movement
     nmap zF <Plug>ChalkRange     " Create fold for specified number of lines
 
-    nmap Zf <Plug>SingleChalk    " Open single fold at current level
-                                 " or specified count
-    nmap ZF <Plug>SingleChalkUp  " Open single fold at next level
-                                 " or specified count
+    nmap Zf <Plug>SingleChalk    " Create single (opening) fold marker
+                                 " at current level or specified count
+    nmap ZF <Plug>SingleChalkUp  " Create single (opening) fold marker
+                                 "  at next levelor specified count
 
     nmap =z <Plug>ChalkUp        " Increment current fold level
     nmap -z <Plug>ChalkDown      " Decrement current fold level
@@ -38,7 +39,7 @@ The answer is to include a level (like this: `"{{{1`), but I'm too lazy for that
     vmap -z <Plug>ChalkDown      " Decrement levels in selection
     ```
 
-    (Chose the mappings you prefer. These are only suggestions.)
+    (Choose the mappings you prefer. These are only suggestions.)
 
 
 ## Commands
