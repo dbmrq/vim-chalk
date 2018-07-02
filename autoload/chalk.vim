@@ -13,7 +13,7 @@ set cpo&vim
 
 " Align markers ......................................................... {{{1
 function! chalk#align()
-    let comments = split(&l:commentstring, '%s')
+    let comments = split(substitute(&l:commentstring, ' ', '', 'g'), '%s')
     let openingComment = len(comments) > 0 ? comments[0] : ""
     let closingComment = len(comments) > 1 ? comments[1] : ""
     let markers = split(substitute(&l:foldmarker, ' ', '', 'g'), ',')
