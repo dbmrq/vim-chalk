@@ -81,11 +81,14 @@ function! s:addMarker(line, position, level)
     endif
     let markers = split(substitute(&l:foldmarker, ' ', '', 'g'), ',')
     let marker = a:position == 'close' ? markers[1] : markers[0]
-    let openingString = lineText . openingComment . " "
+    let spaceBefore = get(b:, 'chalk_space_before') &&
+                    \ len(lineText) > 0 ? " " : ""
+    let openingString = lineText . spaceBefore . openingComment . " "
     let closingString = marker . a:level . closingComment
     let spacesCount = &l:textwidth - strchars(openingString . closingString)
     let spacesCount = g:chalk_align == 1 && spacesCount > 0 ? spacesCount : 1
-    let spaces = repeat(g:chalk_char, spacesCount - 1) . " "
+    let spaces = repeat(g:chalk_char, spacesCount - 1)
+    let spaces = len(spaces) > 0 ? spaces . " " : spaces
     call setline(a:line, openingString . spaces . closingString)
 endfunction
 " ....................................................................... }}}1
@@ -153,7 +156,7 @@ endfunction
 function! s:editFoldText(line)
     if g:chalk_edit == 1
         if g:chalk_align == 1
-        let regex = escape(repeat(g:chalk_char, 4), '/\^$.*~[]&"')
+            let regex = escape(repeat(g:chalk_char, 4), '/\^$.*~[]&"')
         else
             let comments = split(&l:commentstring, '%s')
             let comment = len(comments) > 0 ? comments[0] : ""

@@ -24,6 +24,10 @@ The answer is to include a level (like this: `"{{{1`), but I'm too lazy for that
     let g:chalk_char = "."       " The character used as padding
                                  " when aligning markers
 
+    " Files for which to add a space between the marker and the current text
+    au BufRead,BufNewFile *.vim let b:chalk_space_before = 1
+
+
     vmap zf <Plug>Chalk          " Create fold at visual selection
     nmap zf <Plug>Chalk          " Create fold at operator movement
     nmap zF <Plug>ChalkRange     " Create fold for specified number of lines
@@ -90,6 +94,10 @@ The character used to align markers to the right. The default is a space (`" "`)
 #### g:chalk_edit
 
 By default, Chalk will leave you in insert/replace mode after creating a new fold. You can disable this behavior by setting `g:chalk_edit` to `0`.
+
+#### b:chalk_space_before
+
+By default, Chalk won't add a space between an existing line's text and the fold marker. This is good for a language like TeX, in which spaces make a difference, but may be undesirable for other languages, so you can change this behavior by setting `b:chalk_space_before` to `1` for specific file types. E.g.: `au BufRead,BufNewFile *.vim let b:chalk_space_before = 1`.
 
 
 ## See also

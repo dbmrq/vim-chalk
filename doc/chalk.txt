@@ -153,5 +153,15 @@ By default, Chalk will leave you in insert/replace mode after creating a new
 fold. You can disable this behavior by setting 'g:chalk_edit' to 0.
 
 
+b:chalk_space_before                                    *g:chalk_space_before*
+---------------
+
+By default, Chalk won't add a space between an existing line's text and the
+fold marker. This is good for a language like TeX, in which spaces
+make a difference, but may be undesirable for other languages, so you can
+change this behavior by setting 'b:chalk_space_before' to 1 for specific
+file types. E.g.: "au BufRead,BufNewFile *.vim let b:chalk_space_before = 1".
+
+
 vim:tw=78:ts=8:ft=help:norl:
 
